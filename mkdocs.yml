@@ -1,11 +1,44 @@
 site_name: OpticStream
+repo_name: "lincbrain/opticstream"
+repo_url: "https://github.com/lincbrain/opticstream"
+copyright: "CC-BY 4.0"
+use_directory_urls: true
 site_url: https://opticstream.lincbrain.org/
-repo_url: https://github.com/lincbrain/opticstream
 
 docs_dir: docs
 
 theme:
-  name: material
+  name: "material"
+  language: "en"
+  favicon: img/linc.logo.color+white.notext+square.png
+  logo: img/linc.logo.color+black.alpha.notext.png
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Dark mode
+      primary: "deep purple"
+      accent: "purple"
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Light mode
+      primary: "deep purple"
+      accent: "purple"
+  features:
+    - toc.integrate
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.magiclink
+  - toc:
+      permalink: True
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 
 plugins:
   - search
@@ -15,6 +48,19 @@ plugins:
           options:
             docstring_style: numpy
             show_source: true
+
+extra:
+  generator: false
+  social:
+    - icon: material/home
+      link: https://connects.mgh.harvard.edu/
+      name: Homepage
+    - icon: fontawesome/brands/slack
+      link: https://mit-lincbrain.slack.com/
+      name: Slack
+    - icon: fontawesome/brands/github
+      link: https://github.com/lincbrain/opticstream
+      name: GitHub
 
 nav:
   - Home: index.md
