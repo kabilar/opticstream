@@ -1,9 +1,9 @@
 site_name: OpticStream
-repo_name: "calvinchai/opticstream"
-repo_url: "https://github.com/calvinchai/opticstream"
+repo_name: "lincbrain/opticstream"
+repo_url: "https://github.com/lincbrain/opticstream"
 copyright: "CC-BY 4.0"
 use_directory_urls: true
-site_url: https://calvinchai.github.io/opticstream/
+site_url: https://opticstream.lincbrain.org/
 
 docs_dir: docs
 
@@ -63,7 +63,7 @@ extra:
       link: https://mit-lincbrain.slack.com/
       name: Slack
     - icon: fontawesome/brands/github
-      link: https://github.com/calvinchai/opticstream
+      link: https://github.com/lincbrain/opticstream
       name: GitHub
 
 extra_javascript:
