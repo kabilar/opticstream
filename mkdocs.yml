@@ -7,7 +7,6 @@ site_url: https://opticstream.lincbrain.org/
 
 docs_dir: docs
 
-# Material theme
 theme:
   name: "material"
   language: "en"
@@ -29,7 +28,6 @@ theme:
   features:
     - toc.integrate
 
-# List of extensions
 markdown_extensions:
   - admonition
   - pymdownx.details
@@ -53,7 +51,6 @@ plugins:
             docstring_style: numpy
             show_source: true
 
-# Customize theme
 extra:
   generator: false
   social:
@@ -67,7 +64,6 @@ extra:
       link: https://github.com/lincbrain/opticstream
       name: GitHub
 
-# Pages
 nav:
   - Home: index.md
   - Getting started:
