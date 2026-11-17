@@ -59,6 +59,9 @@ plugins:
 extra:
   generator: false
   social:
+    - icon: material/home
+      link: https://connects.mgh.harvard.edu/
+      name: Homepage
     - icon: fontawesome/brands/slack
       link: https://mit-lincbrain.slack.com/
       name: Slack
