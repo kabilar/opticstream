@@ -41,7 +41,6 @@ markdown_extensions:
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
 
-# List of plugins
 plugins:
   - search
   - mkdocstrings:
