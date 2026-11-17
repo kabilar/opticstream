@@ -31,7 +31,6 @@ theme:
 markdown_extensions:
   - admonition
   - pymdownx.details
-  - pymdownx.critic
   - pymdownx.magiclink
   - toc:
       permalink: True
