@@ -1,9 +1,23 @@
 [project]
 name = "opticstream"
-version = "0.1.0"
-description = "Add your description here"
+dynamic = ["version"]
+description = "Prefect-based workflows for processing large microscopy and imaging datasets, including LSM strips and PS-OCT tiles."
 readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Kaidong Chai" },
+    { name = "Kabilar Gunalan" },
+    { name = "James Jay Scherick" },
+]
 requires-python = ">=3.11"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
 dependencies = [
     "cyclopts>=3.3.0",
     "linc-convert[all] @ git+https://github.com/lincbrain/linc-convert.git@dc8f3243df01d09493a13e53305adede08784695",
@@ -34,6 +48,13 @@ dev = [
     "ruff"
 ]
 
+[project.urls]
+Homepage = "https://opticstream.lincbrain.org"
+Documentation = "https://opticstream.lincbrain.org"
+Source = "https://github.com/lincbrain/opticstream"
+Issues = "https://github.com/lincbrain/opticstream/issues"
+Changelog = "https://github.com/lincbrain/opticstream/blob/master/CHANGELOG.md"
+
 [project.scripts]
 opticstream = "opticstream.cli:main"
 ops = "opticstream.cli:main"
@@ -44,12 +65,16 @@ ops = "opticstream.cli:main"
 #psoct-toolbox = { path = "/space/megaera/1/users/kchai/code/psoct-toolbox", editable = true }
 
 [build-system]
-requires = ["setuptools>=61", "wheel"]
+requires = ["setuptools>=77", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 include = ["opticstream*"]
 exclude = ["notebooks*"]
+
+# The version comes from the latest git tag (vX.Y.Z), which `auto` creates on release.
+[tool.setuptools_scm]
+fallback_version = "0.0.0"
 
 [tool.pytest.ini_options]
 markers = [

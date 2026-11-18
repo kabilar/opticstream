@@ -11,3 +11,9 @@ This page should outline contribution guidelines, including:
 - how to open issues and pull requests
 - any review or release process notes
 
+
+## Pull request labels and releases
+
+Every pull request needs a label that says how it affects the next release
+(`major`, `minor`, `patch`, `internal`, `documentation`, ...). Releases are cut
+automatically from these labels; see [Releasing](releasing.md).

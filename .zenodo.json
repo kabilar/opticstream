@@ -1,0 +1,27 @@
+{
+  "title": "OpticStream",
+  "description": "Prefect-based workflows and utilities for processing large microscopy and imaging datasets, including light-sheet microscopy (LSM) strips and polarization-sensitive optical coherence tomography (PS-OCT) tiles.",
+  "upload_type": "software",
+  "license": "apache-2.0",
+  "creators": [
+    {
+      "name": "Chai, Kaidong"
+    },
+    {
+      "name": "Gunalan, Kabilar"
+    },
+    {
+      "name": "Scherick, James Jay"
+    }
+  ],
+  "keywords": [
+    "microscopy",
+    "light-sheet microscopy",
+    "optical coherence tomography",
+    "PS-OCT",
+    "image processing",
+    "workflow orchestration",
+    "Prefect",
+    "LINC"
+  ]
+}

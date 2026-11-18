@@ -1,0 +1,10 @@
+{
+  "baseBranch": "master",
+  "name": "github-actions[bot]",
+  "email": "41898282+github-actions[bot]@users.noreply.github.com",
+  "plugins": [
+    "git-tag",
+    "first-time-contributor",
+    "released"
+  ]
+}

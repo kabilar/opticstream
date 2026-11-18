@@ -1,0 +1,131 @@
+name: Release
+
+# Releases are cut by `auto` (https://intuit.github.io/auto/) from PR labels:
+#   - semver label on the PR (major / minor / patch) picks the version bump
+#   - the `release` label on a merged PR publishes everything merged since the last tag
+#   - running this workflow manually (workflow_dispatch) publishes without the `release` label
+# A release updates CHANGELOG.md, pushes a vX.Y.Z tag, and creates a GitHub release.
+# Zenodo archives each GitHub release through its GitHub integration (see .zenodo.json).
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  release:
+    name: Create GitHub release
+    # Only the canonical repository releases; forks never tag or publish.
+    if: >-
+      github.repository == 'lincbrain/opticstream'
+      && !contains(github.event.head_commit.message, 'ci skip')
+      && !contains(github.event.head_commit.message, 'skip ci')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # push the CHANGELOG commit and tag, create the release
+      issues: write         # `released` plugin comments on issues closed by the release
+      pull-requests: write  # `released` plugin labels and comments on released PRs
+    outputs:
+      tag: ${{ steps.shipit.outputs.tag }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0  # auto needs all history and tags
+
+      - name: Download auto
+        env:
+          AUTO_VERSION: v11.3.6
+        run: |
+          curl -fsSL "https://github.com/intuit/auto/releases/download/${AUTO_VERSION}/auto-linux.gz" \
+            | gunzip > "$HOME/auto"
+          chmod a+x "$HOME/auto"
+
+      - name: Create release
+        id: shipit
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "@${{ github.actor }} is creating a release triggered by ${{ github.event_name }}"
+          if [ "${{ github.event_name }}" = workflow_dispatch ]
+          then opts=
+          else opts=--only-publish-with-release-label
+          fi
+          tags_before="$(git tag --list | sort)"
+          "$HOME/auto" shipit -v $opts
+          new_tag="$(comm -13 <(echo "$tags_before") <(git tag --list | sort) | tail -n 1)"
+          if [ -n "$new_tag" ]
+          then echo "Released $new_tag"
+          else echo "No release was made"
+          fi
+          echo "tag=$new_tag" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build distributions
+    needs: release
+    if: needs.release.outputs.tag != ''
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # attach the distributions to the GitHub release
+    steps:
+      - name: Check out release tag
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.release.outputs.tag }}
+          fetch-depth: 0  # setuptools-scm reads the version from the tag
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10.3.3
+
+      - name: Build sdist and wheel
+        run: uv build
+
+      - name: Attach distributions to the GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ needs.release.outputs.tag }}
+        run: gh release upload "$TAG" dist/* --repo "$GITHUB_REPOSITORY"
+
+      - name: Upload distributions artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+
+  publish-pypi:
+    name: Publish to PyPI
+    needs: build
+    # Off until the repository variable PUBLISH_TO_PYPI is set to `true`.
+    # PyPI rejects packages with git (direct URL) dependencies, so this stays off
+    # until linc-convert, nifti-zarr and psoct-toolbox are pinned to PyPI releases.
+    if: vars.PUBLISH_TO_PYPI == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/opticstream/
+    permissions:
+      id-token: write  # PyPI trusted publishing (no API token needed)
+    steps:
+      - name: Download distributions artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+
+      - name: Check for direct URL dependencies
+        run: |
+          if unzip -p dist/*.whl '*.dist-info/METADATA' | grep -E '^Requires-Dist: .* @ '; then
+            echo "::error::PyPI rejects dependencies given as git or URL references (listed above). Pin them to PyPI releases in pyproject.toml before publishing."
+            exit 1
+          fi
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

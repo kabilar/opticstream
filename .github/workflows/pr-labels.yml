@@ -1,0 +1,27 @@
+name: Check PR labels
+
+# Every PR needs one of auto's labels so the next release gets the right
+# version bump and changelog section. See docs/developer/releasing.md.
+
+on:
+  pull_request:
+    types: [opened, labeled, unlabeled, synchronize, reopened]
+
+permissions: {}
+
+jobs:
+  check-labels:
+    if: github.repository == 'lincbrain/opticstream'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR labels
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const allowedLabels = ['major', 'minor', 'patch', 'skip-release', 'performance', 'internal', 'documentation', 'tests', 'dependencies'];
+            const labels = context.payload.pull_request.labels.map(label => label.name);
+            if (!labels.some(label => allowedLabels.includes(label))) {
+              core.setFailed(`The pull request must have one of these labels: ${allowedLabels.join(', ')}`);
+            } else {
+              console.log('PR has a valid label.');
+            }
