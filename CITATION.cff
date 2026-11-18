@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "If you use OpticStream, please cite it using the metadata from this file."
+title: "OpticStream"
+abstract: >-
+  Prefect-based workflows and utilities for processing large microscopy and
+  imaging datasets, including light-sheet microscopy (LSM) strips and
+  polarization-sensitive optical coherence tomography (PS-OCT) tiles.
+type: software
+license: Apache-2.0
+url: https://opticstream.lincbrain.org
+repository-code: https://github.com/lincbrain/opticstream
+keywords:
+  - microscopy
+  - light-sheet microscopy
+  - optical coherence tomography
+  - PS-OCT
+  - image processing
+  - workflow orchestration
+  - Prefect
+  - LINC
+authors:
+  - family-names: Chai
+    given-names: Kaidong
+    orcid: https://orcid.org/0009-0001-4654-4092
+    affiliation: "Athinoula A. Martinos Center for Biomedical Imaging, Massachusetts General Hospital, Boston, MA, USA"
+  - family-names: Gunalan
+    given-names: Kabilar
+    orcid: https://orcid.org/0000-0001-6964-4865
+    affiliation: "McGovern Institute for Brain Research, Massachusetts Institute of Technology, Cambridge, MA, USA"
+  - family-names: Scherick
+    given-names: James Jay
+  ## When contributing, please copy and uncomment the following lines
+  # - family-names:
+  #   given-names:
+  #   orcid: https://orcid.org/
+  #   affiliation:

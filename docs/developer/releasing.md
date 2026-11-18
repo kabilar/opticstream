@@ -77,8 +77,18 @@ releases created after the repository is switched on.
 3. **Turn on Zenodo.** Sign in to [Zenodo](https://zenodo.org) with GitHub,
    open the GitHub page in your account settings, and flip the switch for
    `lincbrain/opticstream` (organization repositories need the organization to
-   grant Zenodo access). Zenodo takes the record's metadata from
-   `.zenodo.json`; edit it to add ORCIDs or affiliations.
+   grant Zenodo access). Zenodo takes the record's metadata (authors, ORCIDs,
+   affiliations, license, keywords) from `CITATION.cff`, which also powers
+   GitHub's "Cite this repository" button. Add new contributors there.
+
+   After the first release, copy the Zenodo *concept* DOI (the one that always
+   resolves to the latest version) into `CITATION.cff`:
+
+    ```yaml
+    identifiers:
+      - type: doi
+        value: 10.5281/zenodo.XXXXXXX
+    ```
 
 4. **PyPI (later).** PyPI rejects packages whose dependencies are git URLs,
    and `linc-convert`, `nifti-zarr` and `psoct-toolbox` are currently pinned to

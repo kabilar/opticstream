@@ -5,7 +5,7 @@ name: Release
 #   - the `release` label on a merged PR publishes everything merged since the last tag
 #   - running this workflow manually (workflow_dispatch) publishes without the `release` label
 # A release updates CHANGELOG.md, pushes a vX.Y.Z tag, and creates a GitHub release.
-# Zenodo archives each GitHub release through its GitHub integration (see .zenodo.json).
+# Zenodo archives each GitHub release through its GitHub integration (see CITATION.cff).
 
 on:
   push:
