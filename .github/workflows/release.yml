@@ -20,9 +20,21 @@ concurrency:
 permissions: {}
 
 jobs:
+  tests:
+    name: Tests
+    # Only the canonical repository releases; forks never tag or publish.
+    if: >-
+      github.repository == 'lincbrain/opticstream'
+      && !contains(github.event.head_commit.message, 'ci skip')
+      && !contains(github.event.head_commit.message, 'skip ci')
+    permissions:
+      contents: read
+    uses: ./.github/workflows/tests.yml
+
   release:
     name: Create GitHub release
-    # Only the canonical repository releases; forks never tag or publish.
+    # No tag or release unless the tests pass on this commit.
+    needs: tests
     if: >-
       github.repository == 'lincbrain/opticstream'
       && !contains(github.event.head_commit.message, 'ci skip')

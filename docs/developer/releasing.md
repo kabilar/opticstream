@@ -47,6 +47,10 @@ Merging a labelled PR does not release on its own: changes accumulate on
 - **Run the workflow by hand**: Actions → Release → Run workflow on `master`.
   This releases whatever is pending without needing the `release` label.
 
+Before anything is tagged, the release workflow runs the test suite on the
+merged commit. If any test fails, no tag, release, Zenodo archive or PyPI
+upload happens; fix the tests and merge again (or rerun the workflow).
+
 Releases only run in `lincbrain/opticstream`; the workflow skips forks.
 
 ## First release
